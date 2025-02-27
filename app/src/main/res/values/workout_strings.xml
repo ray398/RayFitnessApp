@@ -1,0 +1,23 @@
+<resources>
+    <string-array name="pushDayList">
+
+        <item>Bench press</item>
+        <item>Inclined press</item>
+        <item>Ez bar crusher</item>
+        <item>Lateral raises</item>
+        <item>Overhead press</item>
+        <item>Dips</item>
+    </string-array>
+
+    <string-array name="pushDaySets">
+
+        <item>x4</item>
+        <item>x4</item>
+        <item>x4</item>
+        <item>x4</item>
+        <item>x4</item>
+        <item>x4</item>
+    </string-array>
+
+
+</resources>

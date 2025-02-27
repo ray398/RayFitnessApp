@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Ray fitness app</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description">Well done I am really proud
+        of you. Keep it up</string>
+
+    <style name="BottomNavTextStyle">
+        <item name="android:textSize">4sp</item>
+    </style>
+
+    <string-array name="exerciseTitle">
+        <item> PUSH DAY</item>
+        <item> PULL DAY</item>
+        <item> LEG DAY</item>
+    </string-array>
+    <string-array name="exerciseNumber">
+        <item> 10 Exercises</item>
+        <item> 10 Exercises</item>
+        <item> 10 Exercises</item>
+    </string-array>
+
+</resources>
