@@ -4,9 +4,19 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="description">Well done I am really proud
         of you. Keep it up</string>
+    <string name="email_hint">
+        Email
+    </string>
 
     <style name="BottomNavTextStyle">
         <item name="android:textSize">4sp</item>
+    </style>
+
+    <style name="HintStyle">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <string-array name="exerciseTitle">

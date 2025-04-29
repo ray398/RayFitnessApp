@@ -40,10 +40,6 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-
-    /**
-     * AsyncTask to load workout types in the background thread to avoid blocking the main thread.
-     */
     @SuppressLint("StaticFieldLeak")
     private class LoadWorkoutTypesTask extends AsyncTask<Void, Void, List<WorkoutType>> {
 

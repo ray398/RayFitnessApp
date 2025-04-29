@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -18,6 +21,7 @@ public class FinishedActivity extends AppCompatActivity {
     private TextView textViewTime2, textViewCalories2, textViewPoint, textViewStreak;
     private ProgressBar progressBarStreaks;
     private Button buttonFinished;
+    private WorkoutDatabaseHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,8 @@ public class FinishedActivity extends AppCompatActivity {
         progressBarStreaks = findViewById(R.id.progressBarStreaks);
         buttonFinished = findViewById(R.id.buttonFinished);
 
+        dbHelper = new WorkoutDatabaseHelper(this);
+
         // Get workout time from intent
         int workoutTime = getIntent().getIntExtra("WORKOUT_TIME", 0);
         textViewTime2.setText(workoutTime + " min");
@@ -41,6 +47,14 @@ public class FinishedActivity extends AppCompatActivity {
         // Award points based on workout duration
         int points = calculatePoints(workoutTime);
         textViewPoint.setText(String.valueOf(points));
+
+        // Save to database
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String userEmail = user.getEmail();
+            String username = user.getDisplayName() != null ? user.getDisplayName() : "Unknown";
+            dbHelper.saveCompletedWorkout(userEmail, username, workoutTime, caloriesBurned, points);
+        }
 
         // Update and display workout streak
         updateWorkoutStreak();
@@ -67,7 +81,7 @@ public class FinishedActivity extends AppCompatActivity {
         String lastWorkoutDate = prefs.getString("LAST_WORKOUT_DATE", "");
         int currentStreak = prefs.getInt("WORKOUT_STREAK", 0);
 
-        String todayDate = new SimpleDateFormat("yyyy-mm-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
+        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().getTime());
         if (!todayDate.equals(lastWorkoutDate)) {
             currentStreak = lastWorkoutDate.equals("") ? 1 : currentStreak + 1;
             editor.putString("LAST_WORKOUT_DATE", todayDate);

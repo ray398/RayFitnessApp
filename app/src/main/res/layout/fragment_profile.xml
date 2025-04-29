@@ -1,10 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2196F3"
+    android:background="#050505"
     tools:context=".ProfileFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#101010">
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/grey_bg_color_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:src="@drawable/person_white"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toTopOf="@+id/view2" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:text="Points"
+            android:textColor="#05FFFF"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewUNamePF" />
+
+        <TextView
+            android:id="@+id/textViewTimePA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="50dp"
+            android:text="Time"
+            android:textColor="#05FFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView12"
+            app:layout_constraintEnd_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+        <TextView
+            android:id="@+id/textViewCaloriesPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:text="Calories"
+            android:textColor="#05FFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textView12"
+            app:layout_constraintStart_toEndOf="@+id/textView12"
+            app:layout_constraintTop_toTopOf="@+id/textView12" />
+
+        <TextView
+            android:id="@+id/textViewPointsPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="30"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textView12"
+            app:layout_constraintEnd_toEndOf="@+id/textView12"
+            app:layout_constraintStart_toStartOf="@+id/textView12" />
+
+        <TextView
+            android:id="@+id/textViewCaloriesPA2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textViewCaloriesPA"
+            app:layout_constraintEnd_toEndOf="@+id/textViewCaloriesPA"
+            app:layout_constraintStart_toStartOf="@+id/textViewCaloriesPA" />
+
+        <TextView
+            android:id="@+id/textViewTimePA2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1.25"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/textViewTimePA"
+            app:layout_constraintEnd_toEndOf="@+id/textViewTimePA"
+            app:layout_constraintStart_toStartOf="@+id/textViewTimePA" />
+        <TextView
+            android:id="@+id/textViewUNamePF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Users Name"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintStart_toStartOf="@+id/view2"
+            app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/grey_bg_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+        <View
+            android:id="@+id/view9"
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/view6"
+            app:layout_constraintStart_toStartOf="@+id/view6"
+            app:layout_constraintTop_toTopOf="@+id/view6" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/view9"
+            app:layout_constraintTop_toTopOf="@+id/view6" />
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="entergmail@gmail.com"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/view9"
+            app:layout_constraintStart_toStartOf="@+id/view9" />
+        <View
+            android:id="@+id/view10"
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/view9"
+            app:layout_constraintStart_toStartOf="@+id/view9"
+            app:layout_constraintTop_toBottomOf="@+id/view9" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Age"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/view10"
+            app:layout_constraintTop_toBottomOf="@+id/view9" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23"
+            android:textColor="@color/white"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/view10"
+            app:layout_constraintStart_toStartOf="@+id/view10" />
+
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="50dp"
+            android:background="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/view10"
+            app:layout_constraintStart_toStartOf="@+id/view10"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

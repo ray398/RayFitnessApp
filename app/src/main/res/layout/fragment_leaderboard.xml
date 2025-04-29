@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#050505"
+    tools:context=".LeaderboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewYourName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:text="Leaderboard"
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/textViewProfilePicLB"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/grey_bg_color_round"
+            android:src="@drawable/person_white"
+            app:layout_constraintEnd_toEndOf="@+id/textViewYourName"
+            app:layout_constraintStart_toStartOf="@+id/textViewYourName"
+            app:layout_constraintTop_toBottomOf="@+id/textViewYourName" />
+
+        <TextView
+            android:id="@+id/textViewPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textViewProfilePicLB"
+            app:layout_constraintStart_toStartOf="@+id/textViewProfilePicLB"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfilePicLB" />
+
+        <TextView
+            android:id="@+id/textViewUserNameLB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Users Name"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="@+id/textViewProfilePicLB"
+            app:layout_constraintStart_toStartOf="@+id/textViewProfilePicLB"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPosition" />
+
+        <TextView
+            android:id="@+id/textViewPointsLBA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="30 Points"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/textViewUserNameLB"
+            app:layout_constraintStart_toStartOf="@+id/textViewUserNameLB"
+            app:layout_constraintTop_toBottomOf="@+id/textViewUserNameLB" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLeaderBoard"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="22dp"
+            android:background="@drawable/grey_bg_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPointsLBA" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

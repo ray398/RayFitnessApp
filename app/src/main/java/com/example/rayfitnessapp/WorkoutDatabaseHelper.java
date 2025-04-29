@@ -35,6 +35,14 @@ public class WorkoutDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_EXERCISE_DURATION_OR_SETS = "duration_or_sets";
     public static final String COLUMN_EXERCISE_GIF_PATH = "gif_path";
 
+    // New Completed Workouts Table
+    public static final String TABLE_COMPLETED_WORKOUTS = "completed_workouts";
+    public static final String COLUMN_COMPLETED_ID = "id";
+    public static final String COLUMN_USER_EMAIL = "user_email"; // To associate with user
+    public static final String COLUMN_TIME_SPENT = "time_spent"; // in minutes
+    public static final String COLUMN_CALORIES_BURNED = "calories_burned";
+    public static final String COLUMN_POINTS = "points";
+    public static final String COLUMN_USERNAME = "username";
 
 
     // SQL to Create Workout Types Table
@@ -59,6 +67,15 @@ public class WorkoutDatabaseHelper extends SQLiteOpenHelper {
                     TABLE_WORKOUT_TYPES + "(" + COLUMN_WORKOUT_TYPE_ID+ "));";
     //...................
 
+    private static final String CREATE_TABLE_COMPLETED_WORKOUTS =
+            "CREATE TABLE " + TABLE_COMPLETED_WORKOUTS + " (" +
+                    COLUMN_COMPLETED_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_USER_EMAIL + " TEXT NOT NULL, " +
+                    COLUMN_TIME_SPENT + " INTEGER, " +
+                    COLUMN_CALORIES_BURNED + " REAL, " +
+                    COLUMN_POINTS + " INTEGER, " +
+                    COLUMN_USERNAME + " TEXT NOT NULL);";
+
     public WorkoutDatabaseHelper(Context context){
         super(context, DATABASE_NAME,null,DATABASE_VERSION);
     }
@@ -67,6 +84,7 @@ public class WorkoutDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_WORKOUT_TYPES);
         db.execSQL(CREATE_TABLE_EXERCISES);
+        db.execSQL(CREATE_TABLE_COMPLETED_WORKOUTS);
 
         addPredefinedWorkoutTypes(db);
         addPredefinedExercises(db);
@@ -83,13 +101,19 @@ public class WorkoutDatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
     }
-
-
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_WORKOUT_TYPES);
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_EXERCISES);
-        onCreate(db);
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 2) {
+            // Upgrade from version 1 to 2: Add username column to existing table
+            db.execSQL("ALTER TABLE " + TABLE_COMPLETED_WORKOUTS + " ADD COLUMN " + COLUMN_USERNAME + " TEXT NOT NULL DEFAULT 'Unknown'");
+        }
+        if (newVersion > 2) {
+            // For future upgrades beyond version 2: Drop and recreate all tables
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORKOUT_TYPES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_EXERCISES);
+            db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPLETED_WORKOUTS);
+            onCreate(db);
+        }
     }
     //...............Method to prepopulate the workout types
     private void addPredefinedWorkoutTypes(SQLiteDatabase db){
@@ -164,6 +188,75 @@ public class WorkoutDatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
         }
         return exercises;
+    }
+
+    // Save completed workout
+    public void saveCompletedWorkout(String userEmail, String username, int timeSpent, double caloriesBurned, int points) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USER_EMAIL, userEmail);
+        values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_TIME_SPENT, timeSpent);
+        values.put(COLUMN_CALORIES_BURNED, caloriesBurned);
+        values.put(COLUMN_POINTS, points);
+        db.insert(TABLE_COMPLETED_WORKOUTS, null, values);
+        db.close();
+    }
+
+    // Get total stats for a user
+    public int getTotalTime(String userEmail) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(" + COLUMN_TIME_SPENT + ") as total_time FROM " +
+                TABLE_COMPLETED_WORKOUTS + " WHERE " + COLUMN_USER_EMAIL + " = ?", new String[]{userEmail});
+        int totalTime = 0;
+        if (cursor.moveToFirst()) {
+            totalTime = cursor.getInt(cursor.getColumnIndexOrThrow("total_time"));
+        }
+        cursor.close();
+        return totalTime;
+    }
+
+    public double getTotalCalories(String userEmail) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(" + COLUMN_CALORIES_BURNED + ") as total_calories FROM " +
+                TABLE_COMPLETED_WORKOUTS + " WHERE " + COLUMN_USER_EMAIL + " = ?", new String[]{userEmail});
+        double totalCalories = 0;
+        if (cursor.moveToFirst()) {
+            totalCalories = cursor.getDouble(cursor.getColumnIndexOrThrow("total_calories"));
+        }
+        cursor.close();
+        return totalCalories;
+    }
+
+    public int getTotalPoints(String userEmail) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SUM(" + COLUMN_POINTS + ") as total_points FROM " +
+                TABLE_COMPLETED_WORKOUTS + " WHERE " + COLUMN_USER_EMAIL + " = ?", new String[]{userEmail});
+        int totalPoints = 0;
+        if (cursor.moveToFirst()) {
+            totalPoints = cursor.getInt(cursor.getColumnIndexOrThrow("total_points"));
+        }
+        cursor.close();
+        return totalPoints;
+    }
+    // New method to get leaderboard data
+    public List<LeaderboardEntry> getLeaderboard() {
+        List<LeaderboardEntry> leaderboard = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_USERNAME + ", SUM(" + COLUMN_POINTS + ") as total_points " +
+                "FROM " + TABLE_COMPLETED_WORKOUTS + " GROUP BY " + COLUMN_USER_EMAIL + ", " + COLUMN_USERNAME +
+                " ORDER BY total_points DESC";
+        Cursor cursor = db.rawQuery(query, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String username = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_USERNAME));
+                int totalPoints = cursor.getInt(cursor.getColumnIndexOrThrow("total_points"));
+                leaderboard.add(new LeaderboardEntry(username, totalPoints));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return leaderboard;
     }
     // Method to fix incorrect GIF paths in the database
     /*

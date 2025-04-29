@@ -7,58 +7,62 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class ProfileFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfileFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfileFragment newInstance(String param1, String param2) {
-        ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private TextView textViewUserNamePF, textViewPointsPA, textViewTimePA2, textViewCaloriesPA2,textViewEmail;
+    private WorkoutDatabaseHelper dbHelper;
+    public ProfileFragment() {}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        textViewUserNamePF = view.findViewById(R.id.textViewUNamePF);
+        textViewPointsPA = view.findViewById(R.id.textViewPointsPA);
+        textViewTimePA2 = view.findViewById(R.id.textViewTimePA2);
+        textViewCaloriesPA2 = view.findViewById(R.id.textViewCaloriesPA2);
+        textViewEmail = view.findViewById(R.id.textViewEmail);
+
+        // Initialize database helper
+        dbHelper = new WorkoutDatabaseHelper(getContext());
+
+        // Load and display profile data
+        loadProfileData();
+
+        return view;
+    }
+    private void loadProfileData() {
+        // Get current user from Firebase Authentication
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            // Fetch and display username and email from Firebase
+            String username = user.getDisplayName();
+            String email = user.getEmail();
+            textViewUserNamePF.setText(username != null ? username : "User");
+            textViewEmail.setText(email != null ? email : "No email");
+
+            // Fetch and display totals from SQLite database
+            int totalTime = dbHelper.getTotalTime(email);
+            double totalCalories = dbHelper.getTotalCalories(email);
+            int totalPoints = dbHelper.getTotalPoints(email);
+
+            textViewTimePA2.setText(String.valueOf(totalTime)); // Total time in minutes
+            textViewCaloriesPA2.setText(String.format("%.1f", totalCalories)); // Total calories with 1 decimal
+            textViewPointsPA.setText(String.valueOf(totalPoints)); // Total points
+        } else {
+            // Handle case where user is not logged in
+            textViewUserNamePF.setText("Not logged in");
+            textViewEmail.setText("N/A");
+            textViewTimePA2.setText("0");
+            textViewCaloriesPA2.setText("0.0");
+            textViewPointsPA.setText("0");
+        }
     }
 }

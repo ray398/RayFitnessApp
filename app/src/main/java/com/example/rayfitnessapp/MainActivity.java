@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     HomeFragment homeFragment = new HomeFragment();
-    AnalyticsFragment analyticsFragment = new AnalyticsFragment();
+    LeaderboardFragment analyticsFragment = new LeaderboardFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
