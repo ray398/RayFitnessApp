@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1006509418398",
+    "project_id": "ray-fitness-app",
+    "storage_bucket": "ray-fitness-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1006509418398:android:397fca247df642c031d88f",
+        "android_client_info": {
+          "package_name": "com.example.rayfitnessapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0eGE8wOn0ZaY9htEUCT9-ri4Vxrf5Hv4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
